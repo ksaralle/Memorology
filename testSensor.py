@@ -11,3 +11,4 @@ import serial.tools.list_ports
 light = sensor()
 light.init()
 light.start()
+print("here.")

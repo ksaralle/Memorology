@@ -22,36 +22,30 @@ class sensor(Thread):
 
                 # a = a.split(b',')[0]
                 # a ->  " b'1\r\n' " / " b'0\r\n' "
-
-                # id -> b' F0 AE 37\r\n'
-
                 if (a == b'0\r\n'):
                 # play
 
-
-                    print("reader 0")
-                    n = ser.readline()
-                    self.tagID = str(n)[3:14]
-
-                    print("ID: ")
-                    print(self.tagID)
                     self.play = True
                     self.record = False
+                    print("reader 0")
+                    n = ser.readline()
+                    self.tagID = n[3:14]
+                    print("ID: ")
+                    print(self.tagID)
 
                 elif(a == b'1\r\n'):
                 # record
-
-
-                    print("reader 1")
-                    n = ser.readline()
-                    self.tagID = str(n)[3:14]
-                    print("ID: ")
-                    print(self.tagID)
                     self.play = False
                     self.record = True
 
+                    print("reader 1")
+                    n = ser.readline()
+                    self.tagID = n[3:14]
+                    print("ID: ")
+                    print(self.tagID)
+
                 else:
-                    print("not reader 0 not reader 1, something is wrong. ")
+                    print("not reader 0 not reader 1")
                     print(a)
                 #elif (a == b'play'):
                 #    self.play = False
