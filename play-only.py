@@ -11,6 +11,7 @@ from sensor import *
 # 3. player audio from database
 
 noRecordingfound = "./audio/no.wav"
+recordingCanceled = "./audio/cancel.wav"
 
 (cur,con)= initializeDB()
 # make sure database memorology exist
@@ -25,7 +26,7 @@ reader.init()
 reader.start()
 
 
-# plays only the designated audio file because i dont have access to rfid tags (i dont have tag ID information)
+
 def playAudio(filepath):
     temp = player()
     temp.init(str(filepath))
