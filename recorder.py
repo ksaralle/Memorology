@@ -26,12 +26,14 @@ class recorder(Thread):
         self.ifdo = True
         self.isPlay = False
     def run (self):
-        print("* in recording")
+        # called by recorder-oject.start()
+        print("starts recording ---")
         self.isPlay = True
         while self.isPlay:
             data = self.stream.read(CHUNK)
             self.frames.append(data)
-        # self.isPlay is false:
+
+        # self.isPlay becomes false:
         self.stream.stop_stream()
         self.stream.close()
         self.p.terminate()
@@ -43,11 +45,12 @@ class recorder(Thread):
         wf.writeframes(b''.join(self.frames))
         wf.close()
         self.isPlay = False
-        print("end recording")
+        print("end recording. ")
+
     def stop (self):
         self.isPlay=False
         self.ifdo = False
-        print("* done recording, stop now. ")
+        print("--- recording stops. ")
 
 
 
