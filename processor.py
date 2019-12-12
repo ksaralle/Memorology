@@ -7,10 +7,10 @@ from recorder import *
 from arduino import *
 
 
-noRecordingfound = "no.wav"
-recordingCanceled = "cancel.wav"
-confirmToDelete = "cancel.wav"
-deleteConfirmed = "no.wav"
+noRecordingfound = "./audio/no.wav"
+recordingCanceled = "./audio/cancel.wav"
+confirmToDelete = "./audio/cancel.wav"
+deleteConfirmed = "./audio/no.wav"
 
 # (cur,con)= initializeDB()
 # make sure database memorology exist
@@ -48,7 +48,7 @@ def deleteFile(filename):
 
 # the entire program wait until this finishes executing
 def playAudio(filename):
-    filepath = "./audio/" + filename
+    filepath =  filename
     playerObject = player()
     playerObject.init(str(filepath))
     playerObject.start()
@@ -62,21 +62,21 @@ def playAudioList(playlist):
     isPlaying = True
 
     for i in playlist:
-        i = "./audio/" + i
+        i = "./audio/%s" %i
 
 
     for j in playlist:
-        if (!ard.isSystemOn):
+        if (not ard.isSystemOn):
             break
-        if (!ard.isLoaded):
+        if (not ard.isLoaded):
             break
         playerObject = player()
         playerObject.init(j)
         playerObject.start()
         while playerObject.ifdo:
-            if (!ard.isSystemOn):
+            if (not ard.isSystemOn):
                 break
-            if (!ard.isLoaded):
+            if (not ard.isLoaded):
                 break
         playerObject.stop()
         playerObject.join()
@@ -114,7 +114,8 @@ def playlistFromDirectory(id):
     list_dir = os.listdir("./audio")
     for i in list_dir:
         if id in i:
-            id_audio += [i]
+            name = "./audio/%s" % i
+            id_audio += [name]
     return id_audio
 
 # play the corresponding audio from mysql database
@@ -148,9 +149,10 @@ while True:
         # item detected
         if keyboard.input != "":
             # something is already being played
+            # print("here")
             if playerObject != None:
                 # an audio file finished playing
-                if !playerObject.ifdo:
+                if not playerObject.ifdo:
                     print("an audio file finished playing")
                     playerObject.stop()
                     playerObject.join()
@@ -167,10 +169,12 @@ while True:
                     # has played through all corresponding files
                     else:
                         print("done playing playlist")
-                        keyboard.input = ""
+                        #keyboard.input = ""
                         playlist = []
                         playFile = ""
                         playNum = 0
+                        ard.toPlay = False
+                        
 
                 # play is not finished
                 else:
@@ -206,7 +210,7 @@ while True:
                         ard.delete = False
 
                     # record button pressed
-                    elif ard.record:
+                    elif ard.toRecord:
                         # stop playing
                         playerObject.stop()
                         playerObject.join()
@@ -273,7 +277,7 @@ while True:
                     playAudio(confirmToDelete)
                     ard.delete = False
                     # delete button pressed again - confirmed
-                    while ard.delete = False:
+                    while ard.delete == False:
                         None
                     # delete button pressed again - confirmed
                     print("cancel recording - confirmed!")
@@ -287,6 +291,7 @@ while True:
                     print("save recording and play immediately")
                     # save recording
                     name = recorderObject.getFileName()
+                    print(name)
                     recorderObject.stop()
                     recorderObject.join()
                     recorderObject = None
@@ -308,6 +313,8 @@ while True:
                         playNum = 0
                         print("starting playing the playlist")
                         playerObject = player()
+                        print(playlist[0])
+                        playFile = playlist[playNum]
                         playerObject.init(playlist[playNum])
                         playerObject.start()
                         playNum += 1
@@ -319,8 +326,11 @@ while True:
                         ard.toPlay = False
                 # record requested
                 elif ard.toRecord:
+                        print("start recording")
                         recorderObject = recorder()
-                        recorderObject.init(generateFilename(keyboard.input))
+                        dirr = "./audio/%s" % generateFilename(keyboard.input)
+                        print(dirr)
+                        recorderObject.init(dirr)
                         recorderObject.start()
                 # item placed, have not pressed buttons, or pressed invalid buttons
                 else:

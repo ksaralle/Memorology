@@ -52,7 +52,7 @@ class recorder(Thread):
         self.ifdo = False
         # print("--- recording stops. ")
 
-    def getFileName ():
+    def getFileName (self):
         return self.filename
 
     # for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):

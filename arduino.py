@@ -29,11 +29,11 @@ class arduino(Thread):
 
 
     def run (self):
-        with serial.Serial('/dev/cu.usbserial-1430', 9600, timeout=100) as ser:
+        with serial.Serial('/dev/ttyUSB0', 9600, timeout=100) as ser:
             while True:
 
                 a = ser.readline()
-                # print(a)
+                print(a)
 
                 if (a == b'mouthPiece up\r\n'):
                     print("picking up mouth piece.")
