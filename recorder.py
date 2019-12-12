@@ -27,7 +27,7 @@ class recorder(Thread):
         self.isPlay = False
     def run (self):
         # called by recorder-oject.start()
-        print("starts recording ---")
+        # print("starts recording ---")
         self.isPlay = True
         while self.isPlay:
             data = self.stream.read(CHUNK)
@@ -45,21 +45,15 @@ class recorder(Thread):
         wf.writeframes(b''.join(self.frames))
         wf.close()
         self.isPlay = False
-        print("end recording. ")
+        # print("end recording. ")
 
     def stop (self):
         self.isPlay=False
         self.ifdo = False
-        print("--- recording stops. ")
+        # print("--- recording stops. ")
 
-
-
-
-
-
-
-
-
+    def getFileName ():
+        return self.filename
 
     # for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
     #     data = stream.read(CHUNK)

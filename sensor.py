@@ -12,6 +12,7 @@ class sensor(Thread):
         self.record = False
         self.tagID = ""
 
+
     def run (self):
         with serial.Serial('/dev/cu.usbserial-1430', 9600, timeout=100) as ser:
             while True:
@@ -25,10 +26,9 @@ class sensor(Thread):
 
                 # id -> b' F0 AE 37\r\n'
 
+
                 if (a == b'0\r\n'):
                 # play
-
-
                     print("reader 0")
                     n = ser.readline()
                     self.tagID = str(n)[3:14]
@@ -53,6 +53,8 @@ class sensor(Thread):
                 else:
                     print("not reader 0 not reader 1, something is wrong. ")
                     print(a)
+
+
                 #elif (a == b'play'):
                 #    self.play = False
                 #elif(a==b'play\r\n'):
